@@ -7,14 +7,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Api(value = "/users")
 @RequestMapping("/users")
@@ -23,6 +22,7 @@ import java.net.URISyntaxException;
 public class UserEndPoint {
 
     private final UserService userService;
+
     @ApiOperation(value = "Get All Users", response = UserDTO.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Request Successfully completed"),
@@ -31,8 +31,8 @@ public class UserEndPoint {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 500, message = "Internal Error")})
     @GetMapping()
-    public ResponseEntity<Page<UserDTO>> getAllUsers(Pageable pageable) {
-        return ResponseEntity.ok(userService.getAllUsers(pageable));
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}")
@@ -42,7 +42,7 @@ public class UserEndPoint {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
-    @PostMapping(consumes = {"application/xml","application/json"})
+    @PostMapping(consumes = {"application/xml", "application/json"})
     public ResponseEntity<UserDTO> saveUser(
             @RequestBody(required = true) UserDTO user
     ) throws URISyntaxException {

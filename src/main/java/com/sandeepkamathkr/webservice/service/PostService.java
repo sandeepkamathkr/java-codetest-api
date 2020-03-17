@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,10 +32,10 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDTO> getAllPostsForUser(Pageable pageable, long userId) {
+    public List<PostDTO> getAllPostsForUser(long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User with userId = " + userId + " Not Found"));
-        return postRepository.findAllByUserId(pageable, userId).map(new PostMapper());
+        return postRepository.findAllByUserId(userId).stream().map(new PostMapper()).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

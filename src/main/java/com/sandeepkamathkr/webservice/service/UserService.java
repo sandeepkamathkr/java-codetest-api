@@ -1,20 +1,20 @@
 package com.sandeepkamathkr.webservice.service;
 
 import com.sandeepkamathkr.webservice.dto.UserDTO;
-import com.sandeepkamathkr.webservice.repository.PostRepository;
-import com.sandeepkamathkr.webservice.repository.UserRepository;
 import com.sandeepkamathkr.webservice.mapper.UserMapper;
 import com.sandeepkamathkr.webservice.model.User;
+import com.sandeepkamathkr.webservice.repository.PostRepository;
+import com.sandeepkamathkr.webservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,8 +26,8 @@ public class UserService {
     private final PostRepository postRepository;
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable).map(new UserMapper(postRepository));
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(new UserMapper(postRepository)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

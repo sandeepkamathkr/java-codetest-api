@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,10 +32,10 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public Page<CommentDTO> getAllCommentsForPost(Pageable pageable, long postId) {
+    public List<CommentDTO> getAllCommentsForPost(long postId) {
         postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post with postId = " + postId + " Not Found"));
-        return commentRepository.findAllByPostId(pageable, postId).map(new CommentMapper());
+        return commentRepository.findAllByPostId(postId).stream().map(new CommentMapper()).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

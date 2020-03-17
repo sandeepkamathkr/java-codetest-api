@@ -7,14 +7,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Api(value = "/comments")
 @RequestMapping("/comments")
@@ -49,8 +48,7 @@ public class CommentEndPoint {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 500, message = "Internal Error")})
     @GetMapping()
-    public ResponseEntity<Page<CommentDTO>> getAllCommentsForPost(Pageable pageable,
-                                                                  @RequestParam(name = "postId") long postId) {
-        return ResponseEntity.ok(commentService.getAllCommentsForPost(pageable, postId));
+    public ResponseEntity<List<CommentDTO>> getAllCommentsForPost(@RequestParam(name = "postId") long postId) {
+        return ResponseEntity.ok(commentService.getAllCommentsForPost(postId));
     }
 }
