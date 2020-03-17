@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../office/efin/efin.iml" filepath="$PROJECT_DIR$/../../office/efin/efin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-codetest-api.iml" filepath="$PROJECT_DIR$/java-codetest-api.iml" />
+    </modules>
+  </component>
+</project>

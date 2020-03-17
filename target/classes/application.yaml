@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  messages:
+    basename: messages
+logging:
+  level:
+    web: debug
+
